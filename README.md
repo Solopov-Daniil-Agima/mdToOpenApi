@@ -4,6 +4,24 @@
 
 ---
 
+## Требования
+
+| Компонент | Версия |
+|-----------|--------|
+| **Python** | **3.11+** (рекомендуется **3.12**) |
+| **pypdf** | только для PDF; ставится через `pip` (см. ниже) |
+
+Скрипты конвертации DOCX используют только стандартную библиотеку Python.
+### Зависимости для PDF (опционально)
+
+Нужны только если конвертируешь `.pdf`. Один раз из корня проекта:
+
+```powershell
+pip install -r scripts/requirements.txt
+```
+
+---
+
 ## Что на входе и выходе
 
 | | |
@@ -11,6 +29,8 @@
 | **Вход** | Файл ТЗ в `input/` — `.md`, `.txt`, `.docx` или `.pdf` |
 | **Выход 1** | `output/{имя}-analysis.md` — структурированный разбор |
 | **Выход 2** | `output/{имя}-openapi.yaml` — спецификация API |
+
+Папка `output/` в `.gitignore` — артефакты генерируются локально.
 
 ---
 
@@ -24,8 +44,7 @@ AI-агент **не читает `.docx` и `.pdf` напрямую**. Снач
 # DOCX — без доп. зависимостей
 python scripts/docx-to-md.py "input/my-spec.docx"
 
-# PDF — нужен pypdf (один раз)
-pip install -r scripts/requirements.txt
+# PDF — сначала pip install -r scripts/requirements.txt
 python scripts/pdf-to-md.py "input/my-spec.pdf"
 ```
 
@@ -53,8 +72,8 @@ python scripts/pdf-to-md.py "input/my-spec.pdf"
 ### Шаг 3. Проверка
 
 1. `output/my-spec-analysis.md` — endpoints, модели, TODO
-2. `output/my-spec-openapi.yaml` — спецификация
-3. [Swagger Editor](https://editor.swagger.io/) — визуальная проверка
+2. `output/my-spec-openapi.yaml` — спецификация; preview в IDE (расширение OpenAPI/Swagger)
+3. [Swagger Editor](https://editor.swagger.io/) — визуальная проверка в браузере
 
 ---
 
@@ -78,6 +97,7 @@ output/spec-openapi.yaml
 | `AGENTS.md` | Контекст проекта и соглашения API |
 | `scripts/docx-to-md.py` | DOCX → Markdown (stdlib) |
 | `scripts/pdf-to-md.py` | PDF → Markdown (pypdf) |
+| `scripts/requirements.txt` | Зависимости для PDF-конвертера |
 | `templates/tz-extraction-checklist.md` | Чек-лист разбора ТЗ |
 | `templates/openapi-base.yaml` | Минимальный каркас OpenAPI 3.0.3 (`info` + `paths`) |
 | `.claude/agents/` | Суб-агенты analyst + architect |
@@ -89,9 +109,11 @@ output/spec-openapi.yaml
 
 | Проблема | Решение |
 |----------|---------|
-| Агент не видит docx/pdf | Конвертируй в `.md` |
+| `python` не найден | Переустанови Python с галочкой **Add to PATH** или используй `py -3.12` |
+| Агент не видит docx/pdf | Конвертируй в `.md` скриптами из `scripts/` |
 | PDF пустой | Скан без текстового слоя — нужен OCR |
 | `No module named pypdf` | `pip install -r scripts/requirements.txt` |
+| OpenAPI preview не открывается | Невалидный YAML: строки с `TODO:` в кавычках, у schema обязателен `type` |
 | Таблицы в md «кривые» | Поправь `.md` вручную после конвертации |
 
 ---
