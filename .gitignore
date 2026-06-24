@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+
+# Локальные настройки агента (разрешения CLI и т.п.)
+.claude/settings.local.json
+
+# Сгенерированные артефакты пайплайна
+output/*.md
+output/*.yaml
+
+# Бинарные ТЗ (часто конфиденциальные; конвертируй в .md)
+input/*.docx
+input/*.pdf

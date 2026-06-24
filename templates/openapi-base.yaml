@@ -1,0 +1,16 @@
+# Каркас OpenAPI 3.0.3 для пайплайна TZ → OpenAPI.
+#
+# Правила валидного yaml (обязательны для preview в IDE):
+# 1. Строки с «: » внутри значения — в кавычках: description: "TODO: не указано в ТЗ"
+# 2. У каждой schema — type (object, string, array, number, boolean)
+# 3. properties — только внутри type: object; items — только внутри type: array
+# 4. У каждой operation — operationId
+# 5. responses — коды в кавычках: "200", "400" (не только default)
+
+openapi: 3.0.3
+info:
+  title: "{{SERVICE_NAME}} API"
+  description: "{{SERVICE_DESCRIPTION}}"
+  version: "{{VERSION}}"
+
+paths: {}
